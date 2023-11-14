@@ -1,4 +1,5 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+Core/Src/my_spi_driver.o: ../Core/Src/my_spi_driver.c \
+ ../Core/Inc/my_spi_driver.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h \
  ../Core/Inc/stm32f7xx_hal_conf.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h \
@@ -29,9 +30,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_spi_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h \
- ../Core/Inc/my_spi_driver.h ../Core/Inc/my_spi_useful.h \
- ../Core/Inc/spi_slave.h ../Core/Inc/my_spi_useful.h
-../Core/Inc/main.h:
+ ../Core/Inc/my_spi_useful.h ../Core/Inc/spi_slave.h
+../Core/Inc/my_spi_driver.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:
 ../Core/Inc/stm32f7xx_hal_conf.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h:
@@ -62,7 +62,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_spi_ex.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h:
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h:
-../Core/Inc/my_spi_driver.h:
 ../Core/Inc/my_spi_useful.h:
 ../Core/Inc/spi_slave.h:
-../Core/Inc/my_spi_useful.h:

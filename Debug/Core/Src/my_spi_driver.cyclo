@@ -1,0 +1,5 @@
+../Core/Src/my_spi_driver.c:13:6:HAL_SPI_TxCpltCallback	2
+../Core/Src/my_spi_driver.c:22:6:HAL_SPI_ErrorCallback	2
+../Core/Src/my_spi_driver.c:31:6:spi_driver_init	1
+../Core/Src/my_spi_driver.c:38:10:my_spi_read_reg	1
+../Core/Src/my_spi_driver.c:49:10:my_spi_set_reg	1

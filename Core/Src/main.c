@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include "my_spi_driver.h"
+#include "my_spi_useful.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,20 +110,48 @@ int main(void)
   MX_SPI5_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint16_t data = 0x21;
-  uint16_t pData;
+  uint16_t data = 123;
+  uint16_t sdata;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_SPI_Transmit_IT(&hspi2, (uint8_t*)&data, 2);
-	  printf("pData: %d \r\n", pData);
-	  HAL_Delay(100l);
-	  HAL_SPI_Receive_IT(&hspi5, (uint8_t*)&pData, 2);
-	  printf("pData: %d \r\n", pData);
-    /* USER CODE END WHILE */
+//	  spi_driver_init(&hspi2, &hspi5);
+//	  data = my_spi_read_reg(ALERT_STATUS);
+//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
+//		  printf("ERROR\r\n");
+//	  printf("%d\r\n", data);
+//	  my_spi_set_reg(ALERT_STATUS, ALERT_STATUS_DEF_VAL);
+//	  data = my_spi_read_reg(ALERT_STATUS);
+//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
+//		  printf("ERROR\r\n");
+//	  printf("%d\r\n", data);
+//	  my_spi_set_reg(ALERT_STATUS, 0xC5 & (uint16_t)ALERT_STATUS_MAKS);
+//	  data = my_spi_read_reg(ALERT_STATUS);
+//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
+//		  print("ERROR\r\n");
+//	  printf("%d\r\n", data);
+//
+//	  data = my_spi_read_reg(HYSTERESIS);
+//	  printf("%d\r\n", data);
+//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
+//		  printf("ERROR\r\n");
+//	  my_spi_set_reg(HYSTERESIS, HYSTERESIS_DEF_VAL);
+//	  data = my_spi_read_reg(HYSTERESIS);
+//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
+//		  printf("ERROR\r\n");
+//	  printf("%d\r\n", data);
+//	  my_spi_set_reg(HYSTERESIS, 21u & (uint16_t)HYSTERESIS_MASK);
+//	  data = my_spi_read_reg(HYSTERESIS);
+//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
+//		  printf("ERROR\r\n");
+//	  printf("%d\r\n", data);
+	  HAL_SPI_Transmit_IT(&hspi5, (uint8_t*) &data, 2);
+	  HAL_SPI_Receive_IT(&hspi2, (uint8_t*) &sdata, 2);
+	  printf("");
+	  /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }

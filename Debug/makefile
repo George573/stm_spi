@@ -60,8 +60,8 @@ all: main-build
 main-build: stm_spi.elf secondary-outputs
 
 # Tool invocations
-stm_spi.elf stm_spi.map: $(OBJS) $(USER_OBJS) /home/cafebabe/STM32CubeIDE/workspace_1.13.2/stm_spi/STM32F769NIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "stm_spi.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/cafebabe/STM32CubeIDE/workspace_1.13.2/stm_spi/STM32F769NIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm_spi.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+stm_spi.elf stm_spi.map: $(OBJS) $(USER_OBJS) /home/cafebabe/Documents/stm_projects/stm_spi/STM32F769NIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "stm_spi.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/cafebabe/Documents/stm_projects/stm_spi/STM32F769NIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm_spi.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

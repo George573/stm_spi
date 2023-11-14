@@ -1,0 +1,5 @@
+../Core/Src/spi_slave.c:36:10:slave_resive_reg_adress	1
+../Core/Src/spi_slave.c:42:10:slave_transimt_reg	1
+../Core/Src/spi_slave.c:49:10:slave_set_reg	2
+../Core/Src/spi_slave.c:62:17:get_reg	2
+../Core/Src/spi_slave.c:69:17:set_reg__	2

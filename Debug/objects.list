@@ -1,4 +1,6 @@
 "./Core/Src/main.o"
+"./Core/Src/my_spi_driver.o"
+"./Core/Src/spi_slave.o"
 "./Core/Src/stm32f7xx_hal_msp.o"
 "./Core/Src/stm32f7xx_it.o"
 "./Core/Src/syscalls.o"
