@@ -2,11 +2,16 @@
  * my_spi_useful.h
  *
  *  Created on: Nov 14, 2023
- *      Author: cafebabe
+ *      Author: George
  */
 
 #ifndef INC_MY_SPI_USEFUL_H_
 #define INC_MY_SPI_USEFUL_H_
+
+/*------------DEFINES-------------*/
+#define MY_SPI_WRITE_MOD	1
+#define MY_SPI_READ_MOD		0
+/*--------------------------------*/
 
 /*------------ERRORS-------------*/
 #define WRONG_ADRESS	~0u

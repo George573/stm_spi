@@ -76,6 +76,39 @@ int _write(int file, char *ptr, int len)
 	HAL_UART_Transmit(&huart1, (uint8_t*)ptr, len, 100);
 	return len;
 }
+
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if (hspi->Instance == hspi5.Instance) {
+		master_transmit = 1;
+		slave_transmit = 0;
+		printf("Master T callback\r\n");
+	} else {
+		slave_transmit = 1;
+		master_transmit = 0;
+		printf("Slave T callback\r\n");
+	}
+}
+
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if (hspi->Instance == hspi5.Instance) {
+		//slave_transmit = 0;
+		printf("Master R callback\r\n");
+	} else {
+		//master_transmit = 0;
+		printf("Slave R callback\r\n");
+	}
+}
+
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
+{
+	if (hspi->Instance == hspi5.Instance) {
+			printf("Master er callback\r\n");
+	} else {
+			printf("Slave er callback\r\n");
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -112,45 +145,37 @@ int main(void)
   /* USER CODE BEGIN 2 */
   uint16_t data = 123;
   uint16_t sdata;
+  uint8_t adress = HYSTERESIS;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  spi_driver_init(&hspi2, &hspi5);
-//	  data = my_spi_read_reg(ALERT_STATUS);
-//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
-//		  printf("ERROR\r\n");
-//	  printf("%d\r\n", data);
-//	  my_spi_set_reg(ALERT_STATUS, ALERT_STATUS_DEF_VAL);
-//	  data = my_spi_read_reg(ALERT_STATUS);
-//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
-//		  printf("ERROR\r\n");
-//	  printf("%d\r\n", data);
-//	  my_spi_set_reg(ALERT_STATUS, 0xC5 & (uint16_t)ALERT_STATUS_MAKS);
-//	  data = my_spi_read_reg(ALERT_STATUS);
-//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
-//		  print("ERROR\r\n");
-//	  printf("%d\r\n", data);
-//
-//	  data = my_spi_read_reg(HYSTERESIS);
-//	  printf("%d\r\n", data);
-//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
-//		  printf("ERROR\r\n");
-//	  my_spi_set_reg(HYSTERESIS, HYSTERESIS_DEF_VAL);
-//	  data = my_spi_read_reg(HYSTERESIS);
-//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
-//		  printf("ERROR\r\n");
-//	  printf("%d\r\n", data);
-//	  my_spi_set_reg(HYSTERESIS, 21u & (uint16_t)HYSTERESIS_MASK);
-//	  data = my_spi_read_reg(HYSTERESIS);
-//	  if (data == WRONG_ADRESS || data == WRONG_VAL)
-//		  printf("ERROR\r\n");
-//	  printf("%d\r\n", data);
-	  HAL_SPI_Transmit_IT(&hspi5, (uint8_t*) &data, 2);
-	  HAL_SPI_Receive_IT(&hspi2, (uint8_t*) &sdata, 2);
-	  printf("");
+	  if (!master_transmit && !slave_transmit) {
+		  //master first transmit
+		  my_spi_set_reg_adr(&hspi2, &adress);
+		  slave_resive_reg_adress(&hspi5);
+		  my_spi_read_reg(&hspi2, &data);
+		  printf("Data value: %d\r\n", data);
+  	  } else if (master_transmit && !slave_transmit){
+		  //slave respond
+  		  slave_respond_to_master(&hspi5);
+	  } else if(!master_transmit && slave_transmit && !(adress & MY_SPI_WRITE_MOD)) {
+		  //master respond
+		  adress |= MY_SPI_WRITE_MOD;
+		  my_spi_set_reg_adr(&hspi2, &adress);
+		  slave_resive_reg_adress(&hspi5);
+		  data = (data + 2) & HYSTERESIS_MASK;
+		  my_spi_set_reg(&hspi2, &data);
+		  printf("Data value: %d\r\n", data);
+	  } else {
+		  adress = (adress >> 1) << 1;
+		  my_spi_set_reg_adr(&hspi2, &adress);
+		  slave_resive_reg_adress(&hspi5);
+		  my_spi_read_reg(&hspi2, &data);
+		  printf("Data value: %d\r\n", data);
+	  }
 	  /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -27,15 +27,23 @@ uint16_t masks[8] = {
 
 // Address of register (master set it to read or write to it)
 uint8_t adress = 0;
+uint8_t mod = -1;
 /*--------------------------------*/
 
 
 /*----------------FUNCTIONS FOR SPI COMUNICATION-----------------*/
-
 // Resiving address of a register that master want to get/set
 uint16_t slave_resive_reg_adress(SPI_HandleTypeDef *hspi)
 {
-	return (uint16_t) HAL_SPI_Receive_IT(hspi, &adress, 1);
+	uint16_t error;
+	HAL_SPI_Receive(hspi, &adress, 1, 5000);
+	mod = adress & MY_SPI_WRITE_MOD;
+	adress = adress >> 1;
+//	if(mod)
+//		error = slave_transimt_reg(hspi);
+//	else
+//		error = slave_resive_reg_data(hspi);
+	return error;
 }
 
 // Transmitting register to master
@@ -46,14 +54,22 @@ uint16_t slave_transimt_reg(SPI_HandleTypeDef *hspi)
 }
 
 // Resiving register value fregister master to set it to desired register
-uint16_t slave_set_reg(SPI_HandleTypeDef *hspi)
+uint16_t slave_resive_reg_data(SPI_HandleTypeDef *hspi)
 {
 	uint16_t data;
 	HAL_StatusTypeDef err;
-	err = HAL_SPI_Receive_IT(hspi, (uint8_t*) &data, 2);
+	err = HAL_SPI_Receive(hspi, (uint8_t*) &data, 2, 5000);
 	if (!err)
 		return (uint16_t) set_reg__(adress, data);
 	return (uint16_t) err;
+}
+
+uint16_t slave_respond_to_master(SPI_HandleTypeDef *hspi)
+{
+	if (mod)
+		return slave_resive_reg_data(hspi);
+	else
+		return slave_transimt_reg(hspi);
 }
 /*----------------------------------------------------------------*/
 

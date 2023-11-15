@@ -7,49 +7,35 @@
 
 #include "my_spi_driver.h"
 
-SPI_HandleTypeDef* master_spi;
-SPI_HandleTypeDef* slave_spi;
+uint8_t master_transmit;
+uint8_t slave_transmit;
 
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	if (hspi->Instance == master_spi->Instance) {
-		printf("Master T callback\r\n");
-	} else {
-		printf("Slave T callback\r\n");
-	}
-}
+//void spi_driver_init(SPI_HandleTypeDef* master_spi__, SPI_HandleTypeDef* slave_spi__)
+//{
+//	master_spi = master_spi__;
+//	slave_spi = slave_spi__;
+//}
 
-void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
+// Function to set register adress
+uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* adress)
 {
-	if (hspi->Instance == master_spi->Instance) {
-			printf("Master T callback\r\n");
-	} else {
-			printf("Slave T callback\r\n");
-	}
-}
-
-void spi_driver_init(SPI_HandleTypeDef* master_spi__, SPI_HandleTypeDef* slave_spi__)
-{
-	master_spi = master_spi__;
-	slave_spi = slave_spi__;
+	uint16_t error;
+	error = HAL_SPI_Transmit_IT(hspi, (uint8_t*) &adress, 1);
+	return error;
 }
 
 // Function to get register data
-uint16_t my_spi_read_reg(uint8_t adress)
+uint16_t my_spi_read_reg(SPI_HandleTypeDef* hspi, uint16_t* data)
 {
-	HAL_SPI_Transmit_IT(master_spi, &adress, 1);
-	slave_resive_reg_adress(slave_spi);
-	slave_transimt_reg(slave_spi);
-	uint16_t data;
-	HAL_SPI_Receive_IT(master_spi, (uint8_t*) &data, 2);
-	return data;
+	uint16_t error;
+	error = HAL_SPI_Receive(hspi, (uint8_t*) &data, 2, 5000);
+	return error;
 }
 
 // Function to set register data
-uint16_t my_spi_set_reg(uint8_t adress, uint16_t data)
+uint16_t my_spi_set_reg(SPI_HandleTypeDef* hspi, uint16_t* data)
 {
-	HAL_SPI_Transmit_IT(master_spi, &adress, 1);
-	slave_resive_reg_adress(slave_spi);
-	HAL_SPI_Transmit_IT(master_spi, (uint8_t*) &data, 2);
-	return slave_set_reg(slave_spi);
+	uint16_t error;
+	error = HAL_SPI_Transmit_IT(hspi, (uint8_t*) data, 2);
+	return error;
 }
