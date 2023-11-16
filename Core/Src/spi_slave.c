@@ -36,7 +36,7 @@ uint8_t mod = -1;
 uint16_t slave_resive_reg_adress(SPI_HandleTypeDef *hspi)
 {
 	uint16_t error;
-	HAL_SPI_Receive(hspi, &adress, 1, 5000);
+	error = HAL_SPI_Receive(hspi, &adress, 1, 5000);
 	mod = adress & MY_SPI_WRITE_MOD;
 	adress = adress >> 1;
 	return error;

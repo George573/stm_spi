@@ -137,8 +137,7 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   uint16_t data = 123;
-  uint16_t sdata;
-  uint8_t adress = HYSTERESIS;
+  uint8_t address = HYSTERESIS;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -147,24 +146,24 @@ int main(void)
   {
 	  if (!master_transmit && !slave_transmit) {
 		  //master first transmit
-		  my_spi_set_reg_adr(&hspi2, &adress);
+		  my_spi_set_reg_adr(&hspi2, &address);
 		  slave_resive_reg_adress(&hspi5);
 		  my_spi_read_reg(&hspi2, &data);
 		  printf("Data value: %d\r\n", data);
   	  } else if (master_transmit && !slave_transmit){
 		  //slave respond
   		  slave_respond_to_master(&hspi5);
-	  } else if(!master_transmit && slave_transmit && !(adress & MY_SPI_WRITE_MOD)) {
+	  } else if(!master_transmit && slave_transmit && !(address & MY_SPI_WRITE_MOD)) {
 		  //master respond
-		  adress |= MY_SPI_WRITE_MOD;
-		  my_spi_set_reg_adr(&hspi2, &adress);
+		  address |= MY_SPI_WRITE_MOD;
+		  my_spi_set_reg_adr(&hspi2, &address);
 		  slave_resive_reg_adress(&hspi5);
 		  data = (data + 2) & HYSTERESIS_MASK;
 		  my_spi_set_reg(&hspi2, &data);
 		  printf("Data value: %d\r\n", data);
 	  } else {
-		  adress = (adress >> 1) << 1;
-		  my_spi_set_reg_adr(&hspi2, &adress);
+		  address = (address >> 1) << 1;
+		  my_spi_set_reg_adr(&hspi2, &address);
 		  slave_resive_reg_adress(&hspi5);
 		  my_spi_read_reg(&hspi2, &data);
 		  printf("Data value: %d\r\n", data);
