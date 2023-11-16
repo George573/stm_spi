@@ -10,12 +10,6 @@
 uint8_t master_transmit;
 uint8_t slave_transmit;
 
-//void spi_driver_init(SPI_HandleTypeDef* master_spi__, SPI_HandleTypeDef* slave_spi__)
-//{
-//	master_spi = master_spi__;
-//	slave_spi = slave_spi__;
-//}
-
 // Function to set register address
 uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address)
 {
