@@ -39,10 +39,6 @@ uint16_t slave_resive_reg_adress(SPI_HandleTypeDef *hspi)
 	HAL_SPI_Receive(hspi, &adress, 1, 5000);
 	mod = adress & MY_SPI_WRITE_MOD;
 	adress = adress >> 1;
-//	if(mod)
-//		error = slave_transimt_reg(hspi);
-//	else
-//		error = slave_resive_reg_data(hspi);
 	return error;
 }
 

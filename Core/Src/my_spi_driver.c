@@ -16,8 +16,8 @@ uint8_t slave_transmit;
 //	slave_spi = slave_spi__;
 //}
 
-// Function to set register adress
-uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* adress)
+// Function to set register address
+uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address)
 {
 	uint16_t error;
 	error = HAL_SPI_Transmit_IT(hspi, (uint8_t*) &adress, 1);

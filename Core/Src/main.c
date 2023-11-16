@@ -33,14 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define CONV_RESULT			0x0
-#define ALERT_STATUS		0x1
-#define CONFIG				0x2
-#define LOW_LIMIT			0x3
-#define HIGH_LIMIT			0x4
-#define HYSTERESIS			0x5
-#define LOW_CONV			0x6
-#define HIGH_CONV			0x7
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
