@@ -15,15 +15,10 @@
 #include <machine/_default_types.h>
 
 // SPIs
-//extern SPI_HandleTypeDef* master_spi;
-//extern SPI_HandleTypeDef* slave_spi;
 extern uint8_t master_transmit;
 extern uint8_t slave_transmit;
 
-// Call before using
-//void spi_driver_init(SPI_HandleTypeDef* master_spi__, SPI_HandleTypeDef* slave_spi__);
-
-// Function to set register adress
+// Function to set register address
 uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address);
 
 // Function to get register data
