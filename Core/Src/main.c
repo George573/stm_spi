@@ -49,7 +49,8 @@ SPI_HandleTypeDef hspi5;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
+uint8_t master_transmit = 0;
+uint8_t slave_transmit = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -144,15 +145,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  printf("we start");
 	  if (!master_transmit && !slave_transmit) {
 		  //master first transmit
 		  my_spi_set_reg_adr(&hspi2, &address);
 		  slave_resive_reg_adress(&hspi5);
-		  my_spi_read_reg(&hspi2, &data);
+		  my_spi_start_read_reg(&hspi2, &data);
 		  printf("Data value: %d\r\n", data);
   	  } else if (master_transmit && !slave_transmit){
 		  //slave respond
   		  slave_respond_to_master(&hspi5);
+  		  my_spi_end_read_reg(&hspi2);
 	  } else if(!master_transmit && slave_transmit && !(address & MY_SPI_WRITE_MOD)) {
 		  //master respond
 		  address |= MY_SPI_WRITE_MOD;
@@ -165,7 +168,7 @@ int main(void)
 		  address = (address >> 1) << 1;
 		  my_spi_set_reg_adr(&hspi2, &address);
 		  slave_resive_reg_adress(&hspi5);
-		  my_spi_read_reg(&hspi2, &data);
+		  my_spi_start_read_reg(&hspi2, &data);
 		  printf("Data value: %d\r\n", data);
 	  }
 	  /* USER CODE END WHILE */

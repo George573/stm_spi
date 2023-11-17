@@ -1,6 +1,6 @@
 ../Core/Src/spi_slave.c:36:10:slave_resive_reg_adress	2
-../Core/Src/spi_slave.c:47:10:slave_transimt_reg	1
-../Core/Src/spi_slave.c:54:10:slave_resive_reg_data	3
-../Core/Src/spi_slave.c:65:10:slave_respond_to_master	2
-../Core/Src/spi_slave.c:75:17:get_reg	2
-../Core/Src/spi_slave.c:82:17:set_reg__	2
+../Core/Src/spi_slave.c:50:10:slave_transimt_reg	1
+../Core/Src/spi_slave.c:57:10:slave_resive_reg_data	3
+../Core/Src/spi_slave.c:68:10:slave_respond_to_master	2
+../Core/Src/spi_slave.c:78:10:get_reg	2
+../Core/Src/spi_slave.c:85:10:set_reg__	2

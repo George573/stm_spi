@@ -14,15 +14,12 @@
 #include <stdio.h>
 #include <machine/_default_types.h>
 
-// SPIs
-extern uint8_t master_transmit;
-extern uint8_t slave_transmit;
-
 // Function to set register address
 uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address);
 
 // Function to get register data
-uint16_t my_spi_read_reg(SPI_HandleTypeDef* hspi, uint16_t* data);
+uint16_t my_spi_start_read_reg(SPI_HandleTypeDef* hspi, uint16_t* data);
+uint16_t my_spi_end_read_reg(SPI_HandleTypeDef* hspi);
 
 // Function to set register data
 uint16_t my_spi_set_reg(SPI_HandleTypeDef* hspi, uint16_t* data);

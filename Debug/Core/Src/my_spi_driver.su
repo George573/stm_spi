@@ -1,3 +1,4 @@
-../Core/Src/my_spi_driver.c:14:10:my_spi_set_reg_adr	24	static
-../Core/Src/my_spi_driver.c:22:10:my_spi_read_reg	24	static
-../Core/Src/my_spi_driver.c:31:10:my_spi_set_reg	24	static
+../Core/Src/my_spi_driver.c:11:10:my_spi_set_reg_adr	24	static
+../Core/Src/my_spi_driver.c:19:10:my_spi_start_read_reg	24	static
+../Core/Src/my_spi_driver.c:26:10:my_spi_end_read_reg	16	static
+../Core/Src/my_spi_driver.c:32:10:my_spi_set_reg	24	static

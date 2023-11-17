@@ -37,7 +37,10 @@ uint16_t slave_resive_reg_adress(SPI_HandleTypeDef *hspi)
 {
 	uint16_t error;
 	error = HAL_SPI_Receive_IT(hspi, &adress, 1);
-	while (hspi->State != HAL_SPI_STATE_READY) {};
+	while (hspi->State != HAL_SPI_STATE_READY) {
+		HAL_Delay(100u);
+	}
+	HAL_Delay(100u);
 	mod = adress & MY_SPI_WRITE_MOD;
 	adress = adress >> 1;
 	return error;
@@ -72,14 +75,14 @@ uint16_t slave_respond_to_master(SPI_HandleTypeDef *hspi)
 /*----------------------------------------------------------------*/
 
 /*--------------Function helpers----------------*/
-static uint16_t get_reg(uint8_t adress)
+uint16_t get_reg(uint8_t adress)
 {
 	if (adress >= 0 && adress <= 7)
 		return regs[adress];
 	return (uint16_t) WRONG_ADRESS;
 }
 
-static uint16_t set_reg__(uint8_t adress, uint16_t data)
+uint16_t set_reg__(uint8_t adress, uint16_t data)
 {
 	if (data & (~masks[adress])) {
 		uint16_t err = (uint16_t) WRONG_VAL;
