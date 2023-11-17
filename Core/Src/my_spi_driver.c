@@ -22,7 +22,8 @@ uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address)
 uint16_t my_spi_read_reg(SPI_HandleTypeDef* hspi, uint16_t* data)
 {
 	uint16_t error;
-	error = HAL_SPI_Receive(hspi, (uint8_t*) &data, 2, 5000);
+	error = HAL_SPI_Receive_IT(hspi, (uint8_t*) &data, 2);
+	while (hspi->State != HAL_SPI_STATE_READY) {};
 	return error;
 }
 
