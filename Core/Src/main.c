@@ -137,41 +137,33 @@ int main(void)
   MX_SPI5_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint16_t data = 123;
+  uint16_t data = 0;
   uint8_t address = HYSTERESIS;
+  uint8_t state = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  printf("we start");
-	  if (!master_transmit && !slave_transmit) {
-		  //master first transmit
-		  my_spi_set_reg_adr(&hspi2, &address);
-		  slave_resive_reg_adress(&hspi5);
-		  my_spi_start_read_reg(&hspi2, &data);
-		  printf("Data value: %d\r\n", data);
-  	  } else if (master_transmit && !slave_transmit){
-		  //slave respond
-  		  slave_respond_to_master(&hspi5);
-  		  my_spi_end_read_reg(&hspi2);
-	  } else if(!master_transmit && slave_transmit && !(address & MY_SPI_WRITE_MOD)) {
-		  //master respond
-		  address |= MY_SPI_WRITE_MOD;
-		  my_spi_set_reg_adr(&hspi2, &address);
-		  slave_resive_reg_adress(&hspi5);
-		  data = (data + 2) & HYSTERESIS_MASK;
-		  my_spi_set_reg(&hspi2, &data);
-		  printf("Data value: %d\r\n", data);
-	  } else {
-		  address = (address >> 1) << 1;
-		  my_spi_set_reg_adr(&hspi2, &address);
-		  slave_resive_reg_adress(&hspi5);
-		  my_spi_start_read_reg(&hspi2, &data);
-		  printf("Data value: %d\r\n", data);
-	  }
-	  /* USER CODE END WHILE */
+	  slave_listen_for_reg_address(&hspi2);
+	  my_spi_transmit_reg_adr(&hspi5, &address);
+	  slave_set_reg_address(&hspi2);
+	  //
+	  my_spi_listen_for_req_data(&hspi5, &data);
+	  slave_transimt_reg_data(&hspi2);
+	  while(hspi5.State != HAL_SPI_STATE_READY) {};
+	  //
+	  data = (uint16_t) (~0u) & HYSTERESIS_MASK;
+	  slave_listen_for_reg_data(&hspi2);
+	  my_spi_transmit_reg_data(&hspi5, &data);
+	  slave_set_reg_data(&hspi2);
+	  //
+	  my_spi_listen_for_req_data(&hspi5, &data);
+	  slave_transimt_reg_data(&hspi2);
+	  while(hspi5.State != HAL_SPI_STATE_READY) {};
+	  printf("");
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
@@ -236,19 +228,18 @@ static void MX_SPI2_Init(void)
   /* USER CODE END SPI2_Init 1 */
   /* SPI2 parameter configuration*/
   hspi2.Instance = SPI2;
-  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Mode = SPI_MODE_SLAVE;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
   hspi2.Init.DataSize = SPI_DATASIZE_16BIT;
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi2.Init.CRCPolynomial = 7;
   hspi2.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-  hspi2.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+  hspi2.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
   if (HAL_SPI_Init(&hspi2) != HAL_OK)
   {
     Error_Handler();
@@ -276,18 +267,19 @@ static void MX_SPI5_Init(void)
   /* USER CODE END SPI5_Init 1 */
   /* SPI5 parameter configuration*/
   hspi5.Instance = SPI5;
-  hspi5.Init.Mode = SPI_MODE_SLAVE;
+  hspi5.Init.Mode = SPI_MODE_MASTER;
   hspi5.Init.Direction = SPI_DIRECTION_2LINES;
   hspi5.Init.DataSize = SPI_DATASIZE_16BIT;
   hspi5.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi5.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi5.Init.NSS = SPI_NSS_SOFT;
+  hspi5.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi5.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi5.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi5.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi5.Init.CRCPolynomial = 7;
   hspi5.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-  hspi5.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+  hspi5.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
   if (HAL_SPI_Init(&hspi5) != HAL_OK)
   {
     Error_Handler();

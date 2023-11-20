@@ -1,4 +1,3 @@
-../Core/Src/my_spi_driver.c:11:10:my_spi_set_reg_adr	1
-../Core/Src/my_spi_driver.c:19:10:my_spi_start_read_reg	1
-../Core/Src/my_spi_driver.c:26:10:my_spi_end_read_reg	2
-../Core/Src/my_spi_driver.c:32:10:my_spi_set_reg	1
+../Core/Src/my_spi_driver.c:11:10:my_spi_transmit_reg_adr	1
+../Core/Src/my_spi_driver.c:19:10:my_spi_listen_for_req_data	1
+../Core/Src/my_spi_driver.c:27:10:my_spi_transmit_reg_data	1

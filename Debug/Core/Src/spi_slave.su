@@ -1,6 +1,8 @@
-../Core/Src/spi_slave.c:36:10:slave_resive_reg_adress	24	static
-../Core/Src/spi_slave.c:50:10:slave_transimt_reg	24	static
-../Core/Src/spi_slave.c:57:10:slave_resive_reg_data	24	static
-../Core/Src/spi_slave.c:68:10:slave_respond_to_master	16	static
-../Core/Src/spi_slave.c:78:10:get_reg	16	static
-../Core/Src/spi_slave.c:85:10:set_reg__	24	static
+../Core/Src/spi_slave.c:37:10:slave_listen_for_reg_address	24	static
+../Core/Src/spi_slave.c:44:10:slave_set_reg_address	16	static
+../Core/Src/spi_slave.c:50:10:slave_transimt_reg_data	24	static
+../Core/Src/spi_slave.c:57:10:slave_listen_for_reg_data	24	static
+../Core/Src/spi_slave.c:64:10:slave_set_reg_data	16	static
+../Core/Src/spi_slave.c:70:10:slave_respond_to_master	16	static
+../Core/Src/spi_slave.c:80:17:get_reg	24	static
+../Core/Src/spi_slave.c:89:17:set_reg__	24	static

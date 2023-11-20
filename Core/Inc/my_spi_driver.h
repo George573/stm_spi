@@ -15,13 +15,12 @@
 #include <machine/_default_types.h>
 
 // Function to set register address
-uint16_t my_spi_set_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address);
-
-// Function to get register data
-uint16_t my_spi_start_read_reg(SPI_HandleTypeDef* hspi, uint16_t* data);
-uint16_t my_spi_end_read_reg(SPI_HandleTypeDef* hspi);
+uint16_t my_spi_transmit_reg_adr(SPI_HandleTypeDef* hspi, uint8_t* address);
 
 // Function to set register data
-uint16_t my_spi_set_reg(SPI_HandleTypeDef* hspi, uint16_t* data);
+uint16_t my_spi_transmit_reg_data(SPI_HandleTypeDef* hspi, uint16_t* data);
+
+// Function to get register data
+uint16_t my_spi_listen_for_req_data(SPI_HandleTypeDef* hspi, uint16_t* data);
 
 #endif /* INC_MY_SPI_DRIVER_H_ */
